@@ -36,22 +36,76 @@ namespace Proyecto_Colas
 
         public void Print()
         {
-
+            if (UnderFlow())
+            {
+                Console.WriteLine("La cola esta vacia.");
+            }
+            else
+            {
+                Nodo act;
+                act = inicio;
+                while (act != null)
+                {
+                    Console.Write($"{act.Valor}" + " " + "->" + " ");
+                    act = act.Sig;
+                }
+            }
         }
 
         public int Count()
         {
-
+            return contador;
         }
 
         public bool Insert(int num)
         {
+            try
+            {
+                Nodo nuevo = new Nodo(num);
+                if (UnderFlow())
+                {
+                    inicio = nuevo;
+                    contador++;
+                    return true;
+                }
+                else
+                {
+                    Nodo actual = inicio;
+                    while (actual.Sig != null)
+                    {
+                        actual = actual.Sig;
+                    }
+                    actual.Sig = nuevo;
+                    contador++;
+                    return true;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("No se pudo insertar, la cola esta llena.");
+                return false;
+            }
+
+
             //regresa true al inseertar exitosamente
             //Regresa false si la cola esta llena y no se pudo insertar
         }
 
         public int Extract()
         {
+            if (UnderFlow())
+            {
+                Console.WriteLine("La cola esta vacia.");
+                return -1;
+            }
+            else
+            {
+                int valor = inicio.Valor;
+                inicio = inicio.Sig;
+                contador--;
+                return valor;
+
+            }
             //Regresa el valor extraido de la cola
             //Si la cola esta vacia regresa -1 por que no pudo extraer
         }
